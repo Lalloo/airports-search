@@ -1,8 +1,8 @@
-package org.example;
+package org.example.airportsSearch;
 
-import org.example.file.data.Row;
-import org.example.file.impl.CSVFileInfo;
-import org.example.util.ArgsParser;
+import org.example.airportsSearch.file.data.Row;
+import org.example.airportsSearch.file.impl.CSVFileInfo;
+import org.example.airportsSearch.util.ArgsParser;
 
 import java.io.*;
 import java.util.List;

@@ -1,9 +1,9 @@
-package org.example.file.impl;
+package org.example.airportsSearch.file.impl;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.example.file.FileInfo;
-import org.example.file.data.Row;
+import org.example.airportsSearch.file.FileInfo;
+import org.example.airportsSearch.file.data.Row;
 
 import java.io.*;
 import java.util.*;
@@ -12,8 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CSVFileInfo implements FileInfo {
     final File file;
-    final Map<Character, List<Row>> columnValuesStartsWithMap = new TreeMap<>();
-    Comparator<Row> comparatorForRows;
+    final Map<Character, List<Row>> columnValuesStartsWithMap = new HashMap<>();
 
     static final int CHAR_SIZE_IN_BYTES = 2;
 
@@ -52,7 +51,7 @@ public class CSVFileInfo implements FileInfo {
         }
         //todo добавить флажок на инициализацию число или нет получается, чтобы не инициализировать компаратор заново на строках идущих подряд например
         for (List<Row> list : columnValuesStartsWithMap.values()) {
-            comparatorForRows = initializeComparatorForRows(list.get(0).getClearedColumnValue());
+            Comparator<Row> comparatorForRows = initializeComparatorForRows(list.get(0).getClearedColumnValue());
             list.sort(comparatorForRows);
         }
     }

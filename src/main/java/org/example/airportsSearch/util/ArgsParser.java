@@ -1,6 +1,6 @@
-package org.example.util;
+package org.example.airportsSearch.util;
 
-import org.example.exception.NumberOutOfRangeException;
+import org.example.airportsSearch.exception.NumberOutOfRangeException;
 
 public class ArgsParser {
     private ArgsParser() {

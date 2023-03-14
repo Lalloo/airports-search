@@ -18,7 +18,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <mainClass>
-                                org.example.AirportSearchApplication
+                                org.example.airportsSearch.AirportSearchApplication
                             </mainClass>
                         </manifest>
                     </archive>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>1.18.26</version>
         </dependency>
     </dependencies>
     <properties>

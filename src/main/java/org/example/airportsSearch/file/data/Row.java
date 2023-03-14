@@ -1,4 +1,4 @@
-package org.example.file.data;
+package org.example.airportsSearch.file.data;
 
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,6 +1,6 @@
-package org.example.file;
+package org.example.airportsSearch.file;
 
-import org.example.file.data.Row;
+import org.example.airportsSearch.file.data.Row;
 
 import java.util.List;
 
