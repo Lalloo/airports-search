@@ -12,13 +12,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CSVFileColumnReader implements FileColumnReader {
-    static final int CHAR_SIZE_IN_BYTES = 2;
-
-    static final int SKIP_NEW_LINE_CHARACTER = 2;
-
-    final Map<Character, List<Row>> columnValuesStartsWithMap = new HashMap<>();
+    Map<Character, List<Row>> columnValuesStartsWithMap = new HashMap<>();
 
     @Override
     public Map<Character, List<Row>> readColumnToMap(File file, int columnNumber) {
@@ -26,29 +22,27 @@ public class CSVFileColumnReader implements FileColumnReader {
             String line = reader.readLine();
             long bytesFromStart = 0;
             while (line != null) {
-                Row newRow = new Row();
+                Row row = new Row();
                 int index = 1;
                 for (String columnValue : line.split(",")) {
                     if (index == columnNumber) {
-                        newRow.setColumnValue(columnValue);
-                        newRow.setClearedColumnValue(columnValue.startsWith("\"") ? columnValue.substring(1, columnValue.length() - 1) : columnValue);
+                        row.setColumnValue(columnValue);
+                        row.setClearedColumnValue(columnValue.startsWith("\"") ? columnValue.substring(1, columnValue.length() - 1) : columnValue);
 
                         columnValuesStartsWithMap.computeIfAbsent(
-                                Character.toLowerCase(newRow.getClearedColumnValue().charAt(0)),
+                                Character.toLowerCase(row.getClearedColumnValue().charAt(0)),
                                 k -> new ArrayList<>()
-                        ).add(newRow);
+                        ).add(row);
                     }
                     index++;
                 }
-
-                newRow.setBytesFromStart(bytesFromStart);
-                // Skip 2 bytes for '\n'
-                newRow.setSizeInBytes(line.length() * CHAR_SIZE_IN_BYTES + SKIP_NEW_LINE_CHARACTER);
-
-                bytesFromStart += newRow.getSizeInBytes();
+                row.setBytesFromStart(bytesFromStart);
+                row.setLengthAsSizeInBytesPlusNewLineCharacter(line.length());
+                bytesFromStart += row.getSizeInBytes();
                 line = reader.readLine();
             }
         } catch (IOException e) {
+            //todo change this
             e.printStackTrace();
         }
         sortMap();
@@ -58,7 +52,7 @@ public class CSVFileColumnReader implements FileColumnReader {
     private void sortMap() {
         Comparator<Row> rowComparator;
         for (List<Row> list : columnValuesStartsWithMap.values()) {
-            rowComparator = ComparatorUtil.initializeComparatorForRows(list.get(0).getClearedColumnValue());
+            rowComparator = ComparatorUtil.getForRows(list.get(0).getClearedColumnValue());
             list.sort(rowComparator);
         }
     }

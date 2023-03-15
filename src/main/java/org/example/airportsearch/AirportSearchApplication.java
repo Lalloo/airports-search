@@ -15,11 +15,10 @@ import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @SuppressWarnings("java:S106")
 public class AirportSearchApplication {
-    static final Scanner SCANNER = new Scanner(System.in);
-    static final String PATH_TO_FILE = "src/main/resources/airports.csv";
+    private static final Scanner SCANNER = new Scanner(System.in);
+    private static final String PATH_TO_FILE = "src/main/resources/airports.csv";
 
     public static void main(String[] args) {
         int column = ArgsParser.parseArgs(args);
@@ -33,13 +32,11 @@ public class AirportSearchApplication {
             if (input.equals("!quit")) {
                 break;
             }
-
             long startTime = System.currentTimeMillis();
             List<Row> result = fileRowsSearcher.search(input);
-            long endTime = System.currentTimeMillis();
-
+            long finishTime = System.currentTimeMillis();
             fileRowsPrinter.print(result);
-            System.out.println("Количество найденных строк: " + result.size() + ". Затраченное на поиск время: " + (endTime - startTime) + "ms");
+            System.out.println("Количество найденных строк: " + result.size() + ". Затраченное на поиск время: " + (finishTime - startTime) + "ms");
         }
     }
 }
