@@ -10,7 +10,6 @@ import java.util.*;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CSVFileRowsSearcher implements FileRowsSearcher {
-
     final Map<Character, List<Row>> columnValuesStartsWithMap;
 
     public CSVFileRowsSearcher(Map<Character, List<Row>> columnValuesStartsWithMap) {

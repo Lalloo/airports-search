@@ -1,5 +1,7 @@
 package org.example.airportsearch;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.example.airportsearch.file.FileColumnReader;
 import org.example.airportsearch.file.FileRowsSearcher;
 import org.example.airportsearch.file.FileRowsPrinter;
@@ -13,10 +15,11 @@ import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @SuppressWarnings("java:S106")
 public class AirportSearchApplication {
-    private static final Scanner SCANNER = new Scanner(System.in);
-    private static final String PATH_TO_FILE = "src/main/resources/airports.csv";
+    static final Scanner SCANNER = new Scanner(System.in);
+    static final String PATH_TO_FILE = "src/main/resources/airports.csv";
 
     public static void main(String[] args) {
         int column = ArgsParser.parseArgs(args);
