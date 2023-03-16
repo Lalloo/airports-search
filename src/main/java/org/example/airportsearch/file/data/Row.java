@@ -16,7 +16,7 @@ public class Row {
 
     private long bytesFromStart;
 
-    private int sizeInBytes;
+    private long sizeInBytes;
 
     private String columnValue;
 
@@ -26,15 +26,15 @@ public class Row {
         this.clearedColumnValue = clearedColumnValue;
     }
 
-    public long getSizeInCharacters() {
+    public long getSizeFromStartInCharacters() {
         return bytesFromStart / CHAR_SIZE_IN_BYTES;
     }
 
     public long getSizeInCharactersWithoutNewLine() {
-        return bytesFromStart / CHAR_SIZE_IN_BYTES - NEW_LINE_CHARACTER;
+        return sizeInBytes / CHAR_SIZE_IN_BYTES - NEW_LINE_CHARACTER;
     }
 
     public void setLengthAsSizeInBytesPlusNewLineCharacter(long characterLength) {
-        this.bytesFromStart = characterLength * CHAR_SIZE_IN_BYTES + NEW_LINE_CHARACTER_IN_BYTES;
+        this.sizeInBytes = characterLength * CHAR_SIZE_IN_BYTES + NEW_LINE_CHARACTER_IN_BYTES;
     }
 }

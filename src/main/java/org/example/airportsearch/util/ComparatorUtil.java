@@ -13,6 +13,7 @@ public class ComparatorUtil {
 
     private static final Comparator<Row> DOUBLE_COMPARATOR = Comparator.comparingDouble(r -> Double.parseDouble(r.getClearedColumnValue()));
 
+    //todo make factory
     private ComparatorUtil() {
         throw new UnsupportedOperationException("Utility class instantiation is not supported");
     }

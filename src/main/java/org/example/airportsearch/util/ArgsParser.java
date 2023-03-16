@@ -27,7 +27,7 @@ public class ArgsParser {
             }
             return columnNumber;
         } catch (NumberFormatException e) {
-            System.out.println("Not integer number!");
+            System.err.println("Not integer number!");
         }
         throw new IllegalStateException("Unreachable State");
     }

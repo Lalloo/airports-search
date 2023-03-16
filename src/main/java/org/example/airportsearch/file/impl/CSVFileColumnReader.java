@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+@SuppressWarnings("java:S106")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CSVFileColumnReader implements FileColumnReader {
     Map<Character, List<Row>> columnValuesStartsWithMap = new HashMap<>();
@@ -42,8 +43,7 @@ public class CSVFileColumnReader implements FileColumnReader {
                 line = reader.readLine();
             }
         } catch (IOException e) {
-            //todo change this
-            e.printStackTrace();
+            System.err.println("Input-output exception " + e.getMessage());
         }
         sortMap();
         return columnValuesStartsWithMap;
