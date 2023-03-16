@@ -16,7 +16,7 @@ import java.util.Scanner;
 @SuppressWarnings("java:S106")
 public class AirportSearchApplication {
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final String PATH_TO_FILE = "src/main/resources/airports2.csv";
+    private static final String PATH_TO_FILE = "src/main/resources/airports.csv";
 
     public static void main(String[] args) {
         int column = ArgsParser.parseArgs(args);
