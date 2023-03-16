@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.example.airportsearch.file.FileRowsSearcher;
 import org.example.airportsearch.file.data.Row;
-import org.example.airportsearch.util.ComparatorUtil;
+import org.example.airportsearch.file.comparator.RowComparatorFactory;
 
 import java.util.*;
 
@@ -21,7 +21,7 @@ public class CSVFileRowsSearcher implements FileRowsSearcher {
         List<Row> result = new ArrayList<>();
         List<Row> rows = columnValuesStartsWithMap.getOrDefault(Character.toLowerCase(prefix.charAt(0)), new ArrayList<>());
         Row prefixRow = new Row(prefix);
-        Comparator<Row> rowComparator = ComparatorUtil.getForRows(prefix);
+        Comparator<Row> rowComparator = RowComparatorFactory.getComparator(prefix);
         int index = Collections.binarySearch(rows, prefixRow, rowComparator);
         if (index < 0) {
             index = -index - 1;

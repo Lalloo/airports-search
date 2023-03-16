@@ -1,24 +1,22 @@
 package org.example.airportsearch;
 
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import org.example.airportsearch.file.FileColumnReader;
-import org.example.airportsearch.file.FileRowsSearcher;
 import org.example.airportsearch.file.FileRowsPrinter;
+import org.example.airportsearch.file.FileRowsSearcher;
 import org.example.airportsearch.file.data.Row;
 import org.example.airportsearch.file.impl.CSVFileColumnReader;
-import org.example.airportsearch.file.impl.CSVFileRowsSearcher;
 import org.example.airportsearch.file.impl.CSVFileRowsPrinter;
+import org.example.airportsearch.file.impl.CSVFileRowsSearcher;
 import org.example.airportsearch.util.ArgsParser;
 
-import java.io.*;
+import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 
 @SuppressWarnings("java:S106")
 public class AirportSearchApplication {
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final String PATH_TO_FILE = "src/main/resources/airports.csv";
+    private static final String PATH_TO_FILE = "src/main/resources/airports2.csv";
 
     public static void main(String[] args) {
         int column = ArgsParser.parseArgs(args);
@@ -29,14 +27,18 @@ public class AirportSearchApplication {
         while (true) {
             System.out.print("input: ");
             String input = SCANNER.nextLine();
+            if (input.isEmpty()) {
+                System.out.println("Input is Empty!");
+                continue;
+            }
             if (input.equals("!quit")) {
-                break;
+                return;
             }
             long startTime = System.currentTimeMillis();
             List<Row> result = fileRowsSearcher.search(input);
             long finishTime = System.currentTimeMillis();
             fileRowsPrinter.print(result);
-            System.out.println("Количество найденных строк: " + result.size() + ". Затраченное на поиск время: " + (finishTime - startTime) + "ms");
+            System.out.printf("Количество найденных строк: %d Затраченное на поиск время: %d мс%n", result.size(), (finishTime - startTime));
         }
     }
 }

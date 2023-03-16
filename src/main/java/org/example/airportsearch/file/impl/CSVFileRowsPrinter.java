@@ -33,7 +33,8 @@ public class CSVFileRowsPrinter implements FileRowsPrinter {
                 }
                 System.out.printf("%s[%s]%n", row.getColumnValue(), sb);
             } catch (IOException e) {
-                System.err.println("Input-output exception " + e.getMessage());
+                System.err.printf("Input-output exception %s", e.getMessage());
+                System.exit(1);
             }
         }
     }

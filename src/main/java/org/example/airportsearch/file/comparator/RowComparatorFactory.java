@@ -1,10 +1,10 @@
-package org.example.airportsearch.util;
+package org.example.airportsearch.file.comparator;
 
 import org.example.airportsearch.file.data.Row;
 
 import java.util.Comparator;
 
-public class ComparatorUtil {
+public final class RowComparatorFactory {
 
     private static final Comparator<Row> STRING_COMPARATOR = (r1, r2) -> String.CASE_INSENSITIVE_ORDER.compare(
             r1.getClearedColumnValue(),
@@ -13,22 +13,20 @@ public class ComparatorUtil {
 
     private static final Comparator<Row> DOUBLE_COMPARATOR = Comparator.comparingDouble(r -> Double.parseDouble(r.getClearedColumnValue()));
 
-    //todo make factory
-    private ComparatorUtil() {
+    private RowComparatorFactory() {
         throw new UnsupportedOperationException("Utility class instantiation is not supported");
     }
 
-    public static Comparator<Row> getForRows(String columnValue) {
+    public static Comparator<Row> getComparator(String columnValue) {
         return isNumber(columnValue) ? DOUBLE_COMPARATOR : STRING_COMPARATOR;
     }
 
     private static boolean isNumber(String columnValue) {
-        boolean isNumber = false;
         try {
             Double.parseDouble(columnValue);
-            isNumber = true;
+            return true;
         } catch (NumberFormatException ignored) {
+            return false;
         }
-        return isNumber;
     }
 }

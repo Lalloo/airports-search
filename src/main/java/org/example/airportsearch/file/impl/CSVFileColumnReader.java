@@ -2,9 +2,10 @@ package org.example.airportsearch.file.impl;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.example.airportsearch.exception.NumberOutOfRangeException;
 import org.example.airportsearch.file.FileColumnReader;
 import org.example.airportsearch.file.data.Row;
-import org.example.airportsearch.util.ComparatorUtil;
+import org.example.airportsearch.file.comparator.RowComparatorFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,7 +16,7 @@ import java.util.*;
 @SuppressWarnings("java:S106")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CSVFileColumnReader implements FileColumnReader {
-    Map<Character, List<Row>> columnValuesStartsWithMap = new HashMap<>();
+    Map<Character, List<Row>> columnMap = new HashMap<>();
 
     @Override
     public Map<Character, List<Row>> readColumnToMap(File file, int columnNumber) {
@@ -25,12 +26,16 @@ public class CSVFileColumnReader implements FileColumnReader {
             while (line != null) {
                 Row row = new Row();
                 int index = 1;
-                for (String columnValue : line.split(",")) {
+                String[] splitLine = line.split(",");
+                if (splitLine.length < columnNumber) {
+                    throw new NumberOutOfRangeException("Column not in row");
+                }
+                for (String columnValue : splitLine) {
                     if (index == columnNumber) {
                         row.setColumnValue(columnValue);
                         row.setClearedColumnValue(columnValue.startsWith("\"") ? columnValue.substring(1, columnValue.length() - 1) : columnValue);
 
-                        columnValuesStartsWithMap.computeIfAbsent(
+                        columnMap.computeIfAbsent(
                                 Character.toLowerCase(row.getClearedColumnValue().charAt(0)),
                                 k -> new ArrayList<>()
                         ).add(row);
@@ -43,17 +48,14 @@ public class CSVFileColumnReader implements FileColumnReader {
                 line = reader.readLine();
             }
         } catch (IOException e) {
-            System.err.println("Input-output exception " + e.getMessage());
+            System.err.printf("Input-output exception %s", e.getMessage());
+            System.exit(1);
         }
-        sortMap();
-        return columnValuesStartsWithMap;
-    }
-
-    private void sortMap() {
         Comparator<Row> rowComparator;
-        for (List<Row> list : columnValuesStartsWithMap.values()) {
-            rowComparator = ComparatorUtil.getForRows(list.get(0).getClearedColumnValue());
+        for (List<Row> list : columnMap.values()) {
+            rowComparator = RowComparatorFactory.getComparator(list.get(0).getClearedColumnValue());
             list.sort(rowComparator);
         }
+        return columnMap;
     }
 }
